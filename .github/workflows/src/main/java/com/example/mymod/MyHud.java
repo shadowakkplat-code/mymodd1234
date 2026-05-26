@@ -8,8 +8,38 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.minecraft.client.gui.GuiLayers;
 
 public class MyHud {
+
+    // ИСПРАВЛЕНО: Перехватываем отрисовку прицела для изменения цвета шейдера
+    @SubscribeEvent
+    public void onRenderCrosshairPre(RenderGuiLayerEvent.Pre event) {
+        if (event.getName().equals(GuiLayers.CROSSHAIR)) {
+            int colorId = RightHandConfig.crosshairColorId;
+            
+            if (colorId == 1) { // Зеленый
+                RenderSystem.setShaderColor(0.0f, 1.0f, 0.0f, 1.0f);
+            } else if (colorId == 2) { // Красный
+                RenderSystem.setShaderColor(1.0f, 0.0f, 0.0f, 1.0f);
+            } else if (colorId == 3) { // Синий
+                RenderSystem.setShaderColor(0.0f, 0.3f, 1.0f, 1.0f);
+            } else if (colorId == 4) { // Желтый
+                RenderSystem.setShaderColor(1.0f, 1.0f, 0.0f, 1.0f);
+            } else { // 0 - Дефолтный (Белый/Инверсированный)
+                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            }
+        }
+    }
+
+    // Возвращаем шейдер в обычный цвет после прицела, чтобы не покрасить остальной интерфейс
+    @SubscribeEvent
+    public void onRenderCrosshairPost(RenderGuiLayerEvent.Post event) {
+        if (event.getName().equals(GuiLayers.CROSSHAIR)) {
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        }
+    }
 
     @SubscribeEvent
     public void onRenderGuiPost(RenderGuiEvent.Post event) {
