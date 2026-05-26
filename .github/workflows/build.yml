@@ -1,7 +1,5 @@
 name: Build Mod
-on: 
-  push:
-  workflow_dispatch: # Позволяет запускать сборку кнопкой на сайте
+on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
