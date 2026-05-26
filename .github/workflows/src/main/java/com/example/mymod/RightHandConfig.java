@@ -14,4 +14,7 @@ public class RightHandConfig {
     
     public static int swingMode = 0; 
     public static int activeParticleId = 0;
+
+    // ИСПРАВЛЕНО: ID цвета прицела (0 - дефолт, 1 - зеленый, 2 - красный, 3 - синий, 4 - желтый)
+    public static int crosshairColorId = 0; 
 }
